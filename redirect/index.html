@@ -105,7 +105,11 @@ p{margin-top:14px;color:#D6CBEE;font-size:16px;line-height:1.6}
 (function () {
   var q = new URLSearchParams(location.search);
   var lp = q.get('lp'); if (lp && /^[a-z]+$/.test(lp)) document.getElementById('voltar').href = '/' + lp;
-  if (!CONFIG.FONE) { document.getElementById('modo-ok').hidden = false; return; }
+  if (!CONFIG.FONE) {
+    // sem número configurado: quem veio do botão flutuante volta para o formulário da LP
+    if (!q.get('nome')) { location.replace('/' + (lp && /^[a-z]+$/.test(lp) ? lp : '') + '#contato'); return; }
+    document.getElementById('modo-ok').hidden = false; return;
+  }
 
   var BASE = 'Olá! Vim do site da Do Prado e Rodrigues e gostaria de orientação sobre o meu caso.';
   var CAMPOS = [['nome','Nome'],['whatsapp','WhatsApp'],['area','Área']];
