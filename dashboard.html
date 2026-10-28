@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Leads — Do Prado e Rodrigues</title>
+<link rel="icon" href="/assets/favicon.png">
+<style>
+:root{--bg:#0A0A0A;--card:#171717;--line:#262626;--text:#FAFAFA;--muted:#A3A3A3;--dim:#737373;--accent:#E5E5E5;--blue:#60A5FA;--green:#4ADE80;--amber:#FBBF24;--danger:#F87171}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:28px 20px 60px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:24px}
+h1{margin:0;font-size:20px;font-weight:600;letter-spacing:.06em}
+.sub{margin-top:6px;color:var(--muted);font-size:13px}
+.btn{background:transparent;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:12px;letter-spacing:.06em}
+.btn:hover{border-color:#404040;background:#1f1f1f}
+.btn.primary{background:var(--text);color:#0A0A0A;border-color:var(--text);font-weight:600}
+.btn.primary:hover{background:#d4d4d4}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.card-h h2{margin:0;font-size:14px;font-weight:600}
+.range{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:11px;letter-spacing:.06em}
+.range input{background:#0f0f0f;border:1px solid var(--line);border-radius:8px;color:var(--text);padding:6px 8px;color-scheme:dark}
+.chart-box{position:relative;height:300px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:12px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;color:var(--dim);font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px;border-bottom:1px solid #1f1f1f;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums}
+.empty{color:var(--dim);text-align:center;padding:28px 12px}
+.wa{display:inline-flex;align-items:center;gap:6px;color:var(--text);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px}
+.wa:hover{border-color:var(--green);color:var(--green)}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi span{display:block;color:var(--dim);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.kpi b{display:block;font-size:24px;font-weight:600;margin-top:6px;font-variant-numeric:tabular-nums}
+/* login */
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login form{width:100%;max-width:360px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px;display:flex;flex-direction:column;gap:14px}
+.login h1{font-size:16px}
+.login label{color:var(--muted);font-size:12px;display:flex;flex-direction:column;gap:6px}
+.login input{background:#0f0f0f;border:1px solid var(--line);border-radius:8px;color:var(--text);padding:10px 12px;min-height:42px}
+.login input:focus,.range input:focus{outline:2px solid #525252;outline-offset:1px}
+.err{color:var(--danger);font-size:12px;min-height:16px}
+[hidden]{display:none!important}
+@media (max-width:640px){.kpis{grid-template-columns:1fr}.top{flex-direction:column}.chart-box{height:240px}}
+</style>
+</head>
+<body>
+
+<section id="loginView" class="login" hidden>
+<form id="loginForm" novalidate>
+<h1>LEADS — DO PRADO E RODRIGUES</h1>
+<div class="sub" style="margin-top:-6px">Acesso restrito</div>
+<label>Usuário<input id="lgUser" autocomplete="username" required></label>
+<label>Senha<input id="lgPass" type="password" autocomplete="current-password" required></label>
+<div id="lgErr" class="err" role="alert"></div>
+<button class="btn primary" type="submit" id="lgBtn">ENTRAR</button>
+</form>
+</section>
+
+<main id="appView" class="wrap" hidden>
+<div class="top">
+<div>
+<h1>LEADS — DO PRADO E RODRIGUES</h1>
+<div class="sub" id="totalTxt">Carregando…</div>
+</div>
+<button class="btn" id="logout" type="button">SAIR</button>
+</div>
+
+<div class="kpis">
+<div class="kpi"><span>Visitas</span><b id="kVis">—</b></div>
+<div class="kpi"><span>Leads</span><b id="kLeads">—</b></div>
+<div class="kpi"><span>Conversão</span><b id="kConv">—</b></div>
+</div>
+
+<div class="card">
+<div class="card-h">
+<h2>Evolução diária</h2>
+<div class="range">
+<label>DE <input type="date" id="dFrom"></label>
+<label>ATÉ <input type="date" id="dTo"></label>
+</div>
+</div>
+<div class="chart-box"><canvas id="chart" aria-label="Gráfico de visitas, cadastros e conversão por dia" role="img"></canvas></div>
+<div class="legend">
+<span><i style="background:var(--blue)"></i>Visitas</span>
+<span><i style="background:var(--green)"></i>Cadastros</span>
+<span><i style="background:var(--amber)"></i>Taxa de conversão (%)</span>
+</div>
+</div>
+
+<div class="card">
+<div class="card-h"><h2>Conversão por LP</h2></div>
+<div class="tbl-wrap"><table>
+<thead><tr><th>LP</th><th>Visitas</th><th>Leads</th><th>Conv.</th></tr></thead>
+<tbody id="lpBody"><tr><td colspan="4" class="empty">Carregando…</td></tr></tbody>
+</table></div>
+</div>
+
+<div class="card">
+<div class="card-h"><h2>Leads</h2></div>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Nome</th><th>WhatsApp</th><th>LP</th><th>Origem</th><th>Data</th><th>Ação</th></tr></thead>
+<tbody id="leadBody"><tr><td colspan="6" class="empty">Carregando…</td></tr></tbody>
+</table></div>
+</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(function(){
+  var SUPABASE_URL='https://qxhnjzyhtllmtdrcyygi.supabase.co';
+  var SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4aG5qenlodGxsbXRkcmN5eWdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyMzczNjgsImV4cCI6MjA5NzgxMzM2OH0.DWf4I_x9F--H7ZZHUt_n4V3B__Nlsf1jNZdUV0vNBLU';
+  var SITE='do-prado-rodrigues';
+  var USERS={admin:'admin@do-prado-rodrigues.adsbr.internal'};
+  var CLIENTE='Do Prado e Rodrigues Advocacia';
+  var sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+  var $=function(id){return document.getElementById(id)};
+  var chart=null;
+
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function fmtPhone(d){d=String(d||'').replace(/\D/g,'');if(d.length===11)return '('+d.slice(0,2)+') '+d.slice(2,7)+'-'+d.slice(7);if(d.length===10)return '('+d.slice(0,2)+') '+d.slice(2,6)+'-'+d.slice(6);return d}
+  function fmtDate(s){var d=new Date(s);return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}
+  function pct(a,b){return b?(a/b*100):0}
+
+  async function fetchAll(table,cols,from,to){
+    var out=[],step=1000,i=0;
+    while(true){
+      var r=await sb.from(table).select(cols).eq('site',SITE).gte('created_at',from).lt('created_at',to).order('created_at',{ascending:false}).range(i,i+step-1);
+      if(r.error)throw r.error;
+      out=out.concat(r.data); if(r.data.length<step)break; i+=step;
+    }
+    return out;
+  }
+
+  async function load(){
+    var f=$('dFrom').value,t=$('dTo').value;
+    var from=new Date(f+'T00:00:00'),to=new Date(t+'T00:00:00');to.setDate(to.getDate()+1);
+    try{
+      var res=await Promise.all([fetchAll('lp_visits','created_at',from.toISOString(),to.toISOString()),fetchAll('lp_leads','id,nome,whatsapp,origem,site,created_at',from.toISOString(),to.toISOString())]);
+    }catch(e){
+      $('totalTxt').textContent='Não foi possível carregar os dados.';return;
+    }
+    var visits=res[0],leads=res[1];
+    $('totalTxt').textContent=leads.length+(leads.length===1?' lead no período':' leads no período');
+    $('kVis').textContent=visits.length;$('kLeads').textContent=leads.length;$('kConv').textContent=pct(leads.length,visits.length).toFixed(1).replace('.',',')+'%';
+
+    // série diária
+    var days=[],mv={},ml={};
+    for(var d=new Date(from);d<to;d.setDate(d.getDate()+1)){var k=ymd(d);days.push(k);mv[k]=0;ml[k]=0;}
+    visits.forEach(function(v){var k=ymd(new Date(v.created_at));if(k in mv)mv[k]++});
+    leads.forEach(function(l){var k=ymd(new Date(l.created_at));if(k in ml)ml[k]++});
+    var labels=days.map(function(k){var p=k.split('-');return p[2]+'/'+p[1]});
+    var dv=days.map(function(k){return mv[k]}),dl=days.map(function(k){return ml[k]}),dc=days.map(function(k){return +pct(ml[k],mv[k]).toFixed(1)});
+    if(chart)chart.destroy();
+    chart=new Chart($('chart'),{type:'line',data:{labels:labels,datasets:[
+      {label:'Visitas',data:dv,borderColor:'#60A5FA',backgroundColor:'#60A5FA',tension:.3,pointRadius:2,yAxisID:'y'},
+      {label:'Cadastros',data:dl,borderColor:'#4ADE80',backgroundColor:'#4ADE80',tension:.3,pointRadius:2,yAxisID:'y'},
+      {label:'Conversão (%)',data:dc,borderColor:'#FBBF24',backgroundColor:'#FBBF24',borderDash:[4,4],tension:.3,pointRadius:2,yAxisID:'y1'}]},
+      options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'#262626',borderColor:'#404040',borderWidth:1}},
+      scales:{x:{ticks:{color:'#737373',maxRotation:0,autoSkip:true},grid:{color:'#1f1f1f'}},y:{beginAtZero:true,ticks:{color:'#737373',precision:0},grid:{color:'#1f1f1f'}},y1:{beginAtZero:true,position:'right',ticks:{color:'#737373',callback:function(v){return v+'%'}},grid:{display:false}}}}});
+
+    // conversão por LP
+    var lb=$('lpBody');
+    if(!visits.length&&!leads.length){lb.innerHTML='<tr><td colspan="4" class="empty">Nenhum dado encontrado</td></tr>';}
+    else lb.innerHTML='<tr><td>'+esc(SITE)+'</td><td class="num">'+visits.length+'</td><td class="num">'+leads.length+'</td><td class="num">'+pct(leads.length,visits.length).toFixed(1).replace('.',',')+'%</td></tr>';
+
+    // leads
+    var tb=$('leadBody');
+    if(!leads.length){tb.innerHTML='<tr><td colspan="6" class="empty">Nenhum lead encontrado</td></tr>';return;}
+    tb.innerHTML=leads.map(function(l){
+      var digits=String(l.whatsapp||'').replace(/\D/g,''); var intl=digits.length<=11?'55'+digits:digits;
+      var msg='Olá, '+(l.nome||'').trim()+'. Recebemos seu contato através da '+CLIENTE+' e gostaria de dar continuidade ao seu atendimento.';
+      return '<tr><td>'+esc(l.nome)+'</td><td class="num">'+esc(fmtPhone(l.whatsapp))+'</td><td>'+esc(l.site)+'</td><td>'+esc(l.origem||'—')+'</td><td class="num">'+esc(fmtDate(l.created_at))+'</td><td><a class="wa" target="_blank" rel="noopener" href="https://wa.me/'+esc(intl)+'?text='+encodeURIComponent(msg)+'">WhatsApp ↗</a></td></tr>';
+    }).join('');
+  }
+
+  function showApp(){ $('loginView').hidden=true; $('appView').hidden=false; load(); }
+  function showLogin(){ $('appView').hidden=true; $('loginView').hidden=false; $('lgUser').focus(); }
+
+  var today=new Date(),start=new Date();start.setDate(today.getDate()-29);
+  $('dFrom').value=ymd(start);$('dTo').value=ymd(today);
+  $('dFrom').addEventListener('change',load);$('dTo').addEventListener('change',load);
+
+  $('loginForm').addEventListener('submit',async function(e){
+    e.preventDefault();
+    var u=$('lgUser').value.trim().toLowerCase(),p=$('lgPass').value;
+    var email=USERS[u]||(u.indexOf('@')>0?u:null);
+    if(!email||!p){$('lgErr').textContent='Usuário ou senha inválidos.';return;}
+    $('lgBtn').disabled=true;$('lgErr').textContent='';
+    var r=await sb.auth.signInWithPassword({email:email,password:p});
+    $('lgBtn').disabled=false;
+    if(r.error){$('lgErr').textContent='Usuário ou senha inválidos.';return;}
+    showApp();
+  });
+  $('logout').addEventListener('click',async function(){await sb.auth.signOut();showLogin();});
+
+  sb.auth.getSession().then(function(r){ if(r.data&&r.data.session)showApp(); else showLogin(); });
+})();
+</script>
+</body>
+</html>

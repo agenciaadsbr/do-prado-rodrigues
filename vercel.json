@@ -1,6 +1,16 @@
 {
+  "cleanUrls": true,
+  "images": {
+    "sizes": [640, 1080, 1920],
+    "formats": ["image/avif", "image/webp"],
+    "minimumCacheTTL": 31536000,
+    "remotePatterns": [
+      { "protocol": "https", "hostname": "qxhnjzyhtllmtdrcyygi.supabase.co", "pathname": "/storage/v1/object/public/lp-assets/**" }
+    ]
+  },
   "headers": [
     { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
-    { "source": "/redirect(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Cache-Control", "value": "no-store" }] }
+    { "source": "/redirect(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Cache-Control", "value": "no-store" }] },
+    { "source": "/dashboard(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Cache-Control", "value": "no-store" }, { "key": "Referrer-Policy", "value": "no-referrer" }] }
   ]
 }
