@@ -398,7 +398,9 @@ a{color:#D9A8FF}a:hover{color:#F1DDFF}
     var d=tel.value.replace(/\D/g,'');
     if(d.length<10){tel.focus();tel.setCustomValidity('Informe um WhatsApp válido com DDD.');tel.reportValidity();tel.setCustomValidity('');return;}
     window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'lead_submit'});
-    ok.style.display='block'; f.querySelector('button[type="submit"]').disabled=true;
+    var nome=f.querySelector('input[name="nome"]').value.trim();
+    f.querySelector('button[type="submit"]').disabled=true;
+    location.href='/redirect/?'+new URLSearchParams({nome:nome,whatsapp:tel.value}).toString();
   });
 })();
 </script>
