@@ -97,13 +97,14 @@ p{margin-top:14px;color:#D6CBEE;font-size:16px;line-height:1.6}
     <div class="check" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F5F0FF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
     <h1>Recebemos <span>seus dados!</span></h1>
     <p>A equipe entrará em contato pelo WhatsApp informado para entender a sua situação.</p>
-    <a class="voltar" href="/">Voltar para a página</a>
+    <a class="voltar" id="voltar" href="/">Voltar para a página</a>
   </div>
 </main>
 
 <script>
 (function () {
   var q = new URLSearchParams(location.search);
+  var lp = q.get('lp'); if (lp && /^[a-z]+$/.test(lp)) document.getElementById('voltar').href = '/' + lp;
   if (!CONFIG.FONE) { document.getElementById('modo-ok').hidden = false; return; }
 
   var BASE = 'Olá! Vim do site da Do Prado e Rodrigues e gostaria de orientação sobre o meu caso.';

@@ -119,7 +119,8 @@ td.num{font-variant-numeric:tabular-nums}
 (function(){
   var SUPABASE_URL='https://qxhnjzyhtllmtdrcyygi.supabase.co';
   var SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4aG5qenlodGxsbXRkcmN5eWdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyMzczNjgsImV4cCI6MjA5NzgxMzM2OH0.DWf4I_x9F--H7ZZHUt_n4V3B__Nlsf1jNZdUV0vNBLU';
-  var SITE='do-prado-rodrigues';
+  var SITES=['do-prado-trabalhista','do-prado-bancario','do-prado-rodrigues'];
+  var LP_NOMES={'do-prado-trabalhista':'Trabalhista','do-prado-bancario':'Bancário','do-prado-rodrigues':'LP única (anterior)'};
   var USERS={admin:'admin@do-prado-rodrigues.adsbr.internal'};
   var CLIENTE='Do Prado e Rodrigues Advocacia';
   var sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
@@ -135,7 +136,7 @@ td.num{font-variant-numeric:tabular-nums}
   async function fetchAll(table,cols,from,to){
     var out=[],step=1000,i=0;
     while(true){
-      var r=await sb.from(table).select(cols).eq('site',SITE).gte('created_at',from).lt('created_at',to).order('created_at',{ascending:false}).range(i,i+step-1);
+      var r=await sb.from(table).select(cols).in('site',SITES).gte('created_at',from).lt('created_at',to).order('created_at',{ascending:false}).range(i,i+step-1);
       if(r.error)throw r.error;
       out=out.concat(r.data); if(r.data.length<step)break; i+=step;
     }
@@ -146,7 +147,7 @@ td.num{font-variant-numeric:tabular-nums}
     var f=$('dFrom').value,t=$('dTo').value;
     var from=new Date(f+'T00:00:00'),to=new Date(t+'T00:00:00');to.setDate(to.getDate()+1);
     try{
-      var res=await Promise.all([fetchAll('lp_visits','created_at',from.toISOString(),to.toISOString()),fetchAll('lp_leads','id,nome,whatsapp,origem,site,created_at',from.toISOString(),to.toISOString())]);
+      var res=await Promise.all([fetchAll('lp_visits','created_at,site',from.toISOString(),to.toISOString()),fetchAll('lp_leads','id,nome,whatsapp,origem,site,created_at',from.toISOString(),to.toISOString())]);
     }catch(e){
       $('totalTxt').textContent='Não foi possível carregar os dados.';return;
     }
@@ -172,7 +173,11 @@ td.num{font-variant-numeric:tabular-nums}
     // conversão por LP
     var lb=$('lpBody');
     if(!visits.length&&!leads.length){lb.innerHTML='<tr><td colspan="4" class="empty">Nenhum dado encontrado</td></tr>';}
-    else lb.innerHTML='<tr><td>'+esc(SITE)+'</td><td class="num">'+visits.length+'</td><td class="num">'+leads.length+'</td><td class="num">'+pct(leads.length,visits.length).toFixed(1).replace('.',',')+'%</td></tr>';
+    else lb.innerHTML=SITES.map(function(st){
+      var v=visits.filter(function(x){return x.site===st}).length,l=leads.filter(function(x){return x.site===st}).length;
+      if(!v&&!l)return '';
+      return '<tr><td>'+esc(LP_NOMES[st]||st)+'</td><td class="num">'+v+'</td><td class="num">'+l+'</td><td class="num">'+pct(l,v).toFixed(1).replace('.',',')+'%</td></tr>';
+    }).join('');
 
     // leads
     var tb=$('leadBody');
@@ -180,7 +185,7 @@ td.num{font-variant-numeric:tabular-nums}
     tb.innerHTML=leads.map(function(l){
       var digits=String(l.whatsapp||'').replace(/\D/g,''); var intl=digits.length<=11?'55'+digits:digits;
       var msg='Olá, '+(l.nome||'').trim()+'. Recebemos seu contato através da '+CLIENTE+' e gostaria de dar continuidade ao seu atendimento.';
-      return '<tr><td>'+esc(l.nome)+'</td><td class="num">'+esc(fmtPhone(l.whatsapp))+'</td><td>'+esc(l.site)+'</td><td>'+esc(l.origem||'—')+'</td><td class="num">'+esc(fmtDate(l.created_at))+'</td><td><a class="wa" target="_blank" rel="noopener" href="https://wa.me/'+esc(intl)+'?text='+encodeURIComponent(msg)+'">WhatsApp ↗</a></td></tr>';
+      return '<tr><td>'+esc(l.nome)+'</td><td class="num">'+esc(fmtPhone(l.whatsapp))+'</td><td>'+esc(LP_NOMES[l.site]||l.site)+'</td><td>'+esc(l.origem||'—')+'</td><td class="num">'+esc(fmtDate(l.created_at))+'</td><td><a class="wa" target="_blank" rel="noopener" href="https://wa.me/'+esc(intl)+'?text='+encodeURIComponent(msg)+'">WhatsApp ↗</a></td></tr>';
     }).join('');
   }
 
