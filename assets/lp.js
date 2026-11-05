@@ -55,7 +55,7 @@
           try { sessionStorage.setItem(key, String(Date.now())); } catch (e) {}
         }
         try { window.dataLayer = window.dataLayer || []; dataLayer.push({ event: 'lead_submit', area: c.area }); if (window.fbq) fbq('track', 'Lead'); if (window.gtag) gtag('event', 'generate_lead'); } catch (e) {}
-        location.href = '/redirect/?' + new URLSearchParams({ nome: nome, whatsapp: w.value, area: c.area, lp: c.slug }).toString();
+        location.href = '/redirect/' + c.slug + '/?' + new URLSearchParams({ nome: nome, whatsapp: w.value }).toString();
       } catch (e) {
         sending = false; btn.disabled = false; btn.innerHTML = label;
         msg.textContent = 'Não foi possível enviar agora. Tente novamente em instantes.'; msg.style.display = 'block';

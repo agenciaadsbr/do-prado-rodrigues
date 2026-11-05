@@ -4,7 +4,7 @@ Landing page estática (HTML/CSS/JS, sem build) publicada no Vercel.
 
 - `/trabalhista` e `/bancario` — duas LPs separadas (geradas pelo mesmo modelo; estilos em `assets/lp.css`, scripts em `assets/lp.js`)
 - `/` — redireciona para `/trabalhista`
-- `/redirect` — tela pós-formulário (conversões + WhatsApp do escritório)
+- `/redirect/trabalhista` e `/redirect/bancario` — telas pós-formulário de cada LP (conversões + WhatsApp do escritório); `/redirect` só encaminha para uma delas
 - `/dashboard` — painel de leads com login (Supabase Auth)
 - `assets/` — logo, favicon e imagem de compartilhamento
 
@@ -14,5 +14,5 @@ Landing page estática (HTML/CSS/JS, sem build) publicada no Vercel.
 - Fotos de fundo no bucket público `lp-assets/do-prado-rodrigues/`, otimizadas pelo Vercel (`/_vercel/image`).
 
 ## Pendências
-- `redirect/index.html` → `CONFIG.FONE`: WhatsApp do escritório (DDI+DDD). Também `PIXEL_ID`, `GTM_ID`, `AW_ID`, `AW_LABEL`.
+- `redirect/trabalhista/index.html` e `redirect/bancario/index.html` → `CONFIG.FONE`: WhatsApp do escritório (DDI+DDD). Também `PIXEL_ID`, `GTM_ID`, `AW_ID`, `AW_LABEL`.
 - Número da OAB no rodapé (Provimento 205/2021).
