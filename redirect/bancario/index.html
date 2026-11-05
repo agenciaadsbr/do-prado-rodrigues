@@ -14,7 +14,7 @@
 <script>
 /* ===== CONFIGURAÇÃO — preencher quando tiver os dados ===== */
 var CONFIG = {
-  FONE: '',          // WhatsApp do escritório com DDI+DDD, só números. Ex.: 5511999999999
+  FONE: '5543999652030',          // WhatsApp do escritório com DDI+DDD, só números. Ex.: 5511999999999
   PIXEL_ID: '',      // Meta Pixel do cliente
   GTM_ID: '',        // Google Tag Manager (GTM-XXXX)
   AW_ID: '',         // Google Ads (AW-XXXXXXX)
@@ -112,11 +112,8 @@ p{margin-top:14px;color:#D6CBEE;font-size:16px;line-height:1.6}
     document.getElementById('modo-ok').hidden = false; return;
   }
 
-  var BASE = 'Olá! Vim do site da Do Prado e Rodrigues e gostaria de orientação sobre um problema com o banco.';
-  var CAMPOS = [['nome','Nome'],['whatsapp','WhatsApp']];
-  var extra = CAMPOS.filter(function (c) { return q.get(c[0]); })
-                    .map(function (c) { return c[1] + ': ' + q.get(c[0]); });
-  var msg = extra.length ? BASE + '\n\n' + extra.join('\n') : BASE;
+  var BASE = 'Vim do Google e quero falar com um advogado especialista em Direito Bancário';
+  var msg = BASE;
   var url = 'https://wa.me/' + CONFIG.FONE + '?text=' + encodeURIComponent(msg);
 
   document.getElementById('modo-zap').hidden = false;

@@ -14,5 +14,5 @@ Landing page estática (HTML/CSS/JS, sem build) publicada no Vercel.
 - Fotos de fundo no bucket público `lp-assets/do-prado-rodrigues/`, otimizadas pelo Vercel (`/_vercel/image`).
 
 ## Pendências
-- `redirect/trabalhista/index.html` e `redirect/bancario/index.html` → `CONFIG.FONE`: WhatsApp do escritório (DDI+DDD). Também `PIXEL_ID`, `GTM_ID`, `AW_ID`, `AW_LABEL`.
+- WhatsApp do escritório: 5543999652030 (em `CONFIG.FONE` de cada redirect). Ainda faltam `PIXEL_ID`, `GTM_ID`, `AW_ID`, `AW_LABEL`.
 - Número da OAB no rodapé (Provimento 205/2021).
